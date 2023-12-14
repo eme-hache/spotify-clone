@@ -1,0 +1,23 @@
+---
+interface Props {
+	href: string
+	active: boolean
+}
+
+const { href, active } = Astro.props
+---
+
+<li class="py-1 px-3 h-12 flex items-center">
+	<a
+		class:list={[
+			'flex gap-5 text-subtle hover:text-base-white items-center font-bold',
+			{
+				'text-base-white': active,
+				'text-subtle': !active,
+			},
+		]}
+		href={href}
+	>
+		<slot />
+	</a>
+</li>

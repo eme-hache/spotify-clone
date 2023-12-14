@@ -1,0 +1,59 @@
+---
+import NotificationIcon from '@/icons/astro/Notification.astro'
+import DownloadIcon from '@/icons/astro/Download.astro'
+import ChevronIcon from '@/icons/astro/Chevron.astro'
+
+const path = Astro.url.pathname
+---
+
+<header
+	class:list={[
+		'flex justify-between sticky w-full top-0 left-0 z-20 py-4 px-[clamp(16px,16px_+_(100vw_-_350px_-_0px_-_600px)/424*8,24px)]',
+	]}
+>
+	<div class="flex gap-2">
+		<a
+			href="/"
+			class:list={[
+				"rotate-180 rounded-full bg-[rgba(0,0,0,0.7)] text-base-white w-8 h-8 flex items-center justify-center",
+				{
+					"cursor-not-allowed opacity-60": path === '/',
+				}
+			]}
+		>
+			<ChevronIcon />
+		</a>
+
+		<button
+			class="rounded-full bg-[rgba(0,0,0,0.7)] text-base-white w-8 h-8 flex items-center justify-center"
+		>
+			<ChevronIcon />
+		</button>
+	</div>
+
+	<div class="flex gap-2">
+		<button
+			class="rounded-full bg-[rgba(0,0,0,0.7)] text-base-white pl-3 pr-4 flex gap-[5px] items-center justify-center"
+		>
+			<DownloadIcon />
+
+			<span class="text-sm font-bold pt-[2px]">Install App</span>
+		</button>
+
+		<button
+			class="rounded-full bg-[rgba(0,0,0,0.7)] text-base-white w-8 h-8 flex items-center justify-center"
+		>
+			<NotificationIcon />
+		</button>
+
+		<button
+			class="rounded-full bg-[rgba(0,0,0,0.7)] text-base-white w-8 h-8 flex items-center justify-center"
+		>
+			<img
+				class="rounded-full w-3/4 h-3/4"
+				src="/imgs/profile.jpg"
+				alt="Profile"
+			/>
+		</button>
+	</div>
+</header>

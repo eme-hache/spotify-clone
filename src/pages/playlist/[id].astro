@@ -1,0 +1,116 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PlayButton from '@/components/shared/PlayButton'
+
+import { allPlaylists, songs } from '@/lib/data'
+
+import { DotsLarge } from '@/icons/react/Dots'
+import { Clock } from '@/icons/react/Clock'
+
+const { id } = Astro.params
+
+const playlist = allPlaylists.find((playlist) => playlist.id === id)
+const playlistSongs = songs.filter((song) => song.albumId === playlist?.albumId)
+---
+
+<Layout title="Spotify Clone">
+	<div
+		class="relative transition-all duration-1000 px-[clamp(16px,16px_+_(100vw_-_350px_-_0px_-_600px)/424*8,24px)] flex flex-col gap-[19px]"
+	>
+		<header class="flex gap-6 pt-5">
+			<picture
+				class="aspect-square w-48 h-48 xl:w-[232px] xl:h-[232px] flex-none"
+			>
+				<img
+					src={playlist?.cover}
+					alt={`Cover of ${playlist?.title}`}
+					class="shadow-xl mb-4"
+					transition:name=`playlist-${id}-image`
+				/>
+			</picture>
+
+			<div class="flex-1 flex flex-col justify-end">
+				<p class="text-sm text-base-white">Playlist</p>
+
+				<h1
+					class="text-[2rem] font-black mb-6"
+					transition:name=`playlist-${id}-title`
+					transition:animate="none"
+				>
+					{playlist?.title}
+				</h1>
+
+				<span class="flex gap-1 items-center text-sm">
+					<picture>
+						<img
+							class="rounded-full w-6 h-6 object-cover"
+							src="/imgs/profile.jpg"
+							alt="Profile"
+						/>
+					</picture>
+					<span class="font-bold">Eme Hache</span>
+					<span class="text-xs">•</span>
+					<span>3 likes</span>
+					<span class="text-xs">•</span>
+					{`${playlistSongs.length}12 songs`},
+					<span class="text-subdued">{`about 9 hr`}</span>
+				</span>
+			</div>
+		</header>
+
+		<div>
+			<header class="pt-7 pb-6 flex gap-9 items-center mb-2">
+				<PlayButton id={id || ''} color="green" size="large" client:visible />
+
+				<DotsLarge />
+			</header>
+
+			<section class="mb-32">
+				<table class="table-auto w-full">
+					<thead class="border-b border-essential-subdued/40">
+						<tr class="text-left text-subdued">
+							<th class="text-sm font-light pb-2 pl-5 pr-4 w-[35px]">#</th>
+							<th class="text-sm font-light pb-2">Title</th>
+							<th class="text-sm font-light pb-2">Album</th>
+							<th class="text-sm font-light pb-2">Date added</th>
+							<th class="pb-2 w-[120px] "><Clock /></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{
+							playlistSongs.map((song, index) => (
+								<tr class="hover:bg-playlist-horizontal-min">
+									<td class="rounded-tl rounded-bl py-2 pl-5 pr-4 w-[35px]">{index + 1}</td>
+									<td>
+										<div class="flex items-start">
+											<picture class="mr-4">
+												<img
+													src={song.image}
+													alt={`Cover of ${song.title}`}
+													class="w-10 h-10 object-cover"
+												/>
+											</picture>
+
+											<div class="flex flex-col">
+												<a href="#">{song.title}</a>
+												<a href="#" class="text-subdued text-sm">
+													{song.artists.join(', ')}
+												</a>
+											</div>
+										</div>
+									</td>
+									<td>{song.album}</td>
+									<td>Date</td>
+									<td class=" w-[120px] rounded-tr rounded-br text-right pr-5">{song.duration}</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+</Layout>
+
+<style></style>

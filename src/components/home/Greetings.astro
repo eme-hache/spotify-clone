@@ -1,0 +1,16 @@
+---
+import PLHorizontalMin from '@/components/shared/PLHorizontalMin.astro'
+import Greeting from '@/components/home/Greeting.svelte'
+
+import { playlists } from '@/lib/data'
+---
+
+<section
+	class="relative z-10 mb-4"
+>
+	<Greeting />
+
+	<ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+		{playlists.map((playlist) => <PLHorizontalMin playlist={playlist} />)}
+	</ul>
+</section>

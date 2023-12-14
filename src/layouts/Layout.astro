@@ -1,0 +1,195 @@
+---
+import { ViewTransitions } from 'astro:transitions'
+
+import Header from '@/components/shared/Header.astro'
+import Menu from '../components/shared/Menu.astro'
+import Player from '@/components/shared/Player'
+
+interface Props {
+	title: string
+}
+
+const { title } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<ViewTransitions />
+		<title>{title}</title>
+	</head>
+	<body class="bg-black text-white">
+		<div id="app" class="relative h-screen p-2 gap-2">
+			<aside class="[grid-area:aside] flex flex-col">
+				<Menu />
+			</aside>
+
+			<main
+				class="[grid-area:main] rounded-lg bg-base overflow-y-hidden hover:overflow-y-auto scrollbar-hide relative"
+			>
+				<div
+					class="absolute bg-[rgba(232,40,8,0.5)] bg-gradient-to-t h-[332px] w-full"
+				>
+				</div>
+
+				<Header />
+
+				<div class="relative">
+					<slot />
+				</div>
+			</main>
+
+			<footer class="[grid-area:player] min-h-[72px] flex items-center">
+				<Player client:load transition:name="media-player" transition:persist />
+			</footer>
+		</div>
+		<style>
+			#app {
+				display: grid;
+				grid-template-areas:
+					'aside main main'
+					'player player player';
+				grid-template-columns: 350px 1fr 1fr;
+				grid-template-rows: 1fr auto;
+			}
+		</style>
+
+		<style is:global>
+			html {
+				font-family: 'CircularStd', system-ui, sans-serif;
+				user-select: none;
+			}
+
+			@font-face {
+				font-family: 'CircularStd';
+				src: url('/fonts/CircularStd-Medium.woff2') format('woff2');
+				font-weight: 500;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			@font-face {
+				font-family: 'CircularStd';
+				src: url('/fonts/CircularStd-Book.woff2') format('woff2');
+				font-weight: 400;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			@font-face {
+				font-family: 'CircularStd';
+				src: url('/fonts/CircularStd-Light.woff2') format('woff2');
+				font-weight: 300;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			@font-face {
+				font-family: 'CircularStd';
+				src: url('/fonts/CircularStd-Bold.woff2') format('woff2');
+				font-weight: 700;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			@font-face {
+				font-family: 'CircularStd';
+				src: url('/fonts/CircularStd-Black.woff2') format('woff2');
+				font-weight: 900;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			.mask-image {
+				-webkit-mask-image: linear-gradient(
+					90deg,
+					#000 calc(100% - 120px),
+					transparent
+				);
+				mask-image: linear-gradient(
+					90deg,
+					#000 calc(100% - 120px),
+					transparent
+				);
+			}
+
+			/* For Webkit-based browsers (Chrome, Safari and Opera) */
+			.scrollbar-hide::-webkit-scrollbar {
+				display: none;
+			}
+
+			/* For IE, Edge and Firefox */
+			.scrollbar-hide {
+				-ms-overflow-style: none; /* IE and Edge */
+				scrollbar-width: none; /* Firefox */
+			}
+
+			/********** Range Input Styles **********/
+			/*Range Reset*/
+			input[type='range'] {
+				-webkit-appearance: none;
+				appearance: none;
+				background: transparent;
+				height: 20px;
+				width: 100%;
+			}
+
+			/* Removes default focus */
+			input[type='range']:focus {
+				outline: none;
+			}
+
+			/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+			/* slider track */
+			input[type='range']::-webkit-slider-runnable-track {
+				background-color: hsla(0,0%,100%,.3);
+				border-radius: 0.5rem;
+				height: 4px;
+			}
+
+			input[type='range']:hover::-webkit-slider-thumb {
+				margin-top: -4px; /* Centers thumb on the track */
+				border-radius: 100%;
+				/*custom styles*/
+				background-color: white;
+				height: 0.75rem;
+				width: 0.75rem;
+				position: relative;
+			}
+
+			input[type='range']:hover + .thumb {
+				display: block;
+			}
+
+			/* slider thumb */
+			input[type='range']::-webkit-slider-thumb {
+				-webkit-appearance: none; /* Override default look */
+				appearance: none;
+			}
+
+			/******** Firefox styles ********/
+			/* slider track */
+			input[type='range']::-moz-range-track {
+				background-color: hsla(0,0%,100%,.3);
+				border-radius: 0.5rem;
+				height: 4px;
+			}
+
+			/* slider thumb */
+			input[type='range']::-moz-range-thumb {
+				border: none; /*Removes extra border that FF applies*/
+				border-radius: 0; /*Removes default border-radius that FF applies*/
+
+				/*custom styles*/
+				background-color: #5cd5eb;
+				height: 0.75rem;
+				width: 0.75rem;
+			}
+		</style>
+	</body>
+</html>

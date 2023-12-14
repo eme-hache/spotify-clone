@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Greetings from '@/components/home/Greetings.astro'
+import Section from '@/components/home/Section.astro'
+
+import { playlists } from '@/lib/data'
+---
+
+<Layout title="Spotify Clone">
+	<div
+		class="relative transition-all duration-1000 px-[clamp(16px,16px_+_(100vw_-_350px_-_0px_-_600px)/424*8,24px)] flex flex-col gap-[19px]"
+	>
+		<Greetings />
+
+		<Section
+			name="Episodes for you"
+			href=`section 1`
+			playlists={playlists.slice(0, 4)}
+		/>
+
+		<Section
+			name="Jump back in"
+			href=`section 2`
+			playlists={playlists.slice(4, playlists.length - 1)}
+		/>
+	</div>
+</Layout>
+
+<style></style>

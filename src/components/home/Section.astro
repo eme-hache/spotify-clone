@@ -1,0 +1,42 @@
+---
+import PLVertical from '@/components/shared/PLVertical.astro'
+
+import type { Playlist } from '@/utils/types'
+
+type Props = {
+	name: string
+	href: string
+	playlists: Playlist[]
+}
+
+const { playlists, name, href } = Astro.props
+---
+
+<section>
+	<header class="flex justify-between items-center mb-1">
+		<h2
+			class="text-2xl font-bold text-base-white mb-[14px] tracking-tight hover:underline"
+		>
+			<a href={href}>
+				{name}
+			</a>
+		</h2>
+
+		<a
+			href={href}
+			class="text-sm font-bold text-subtle mb-[14px] tracking-tight hover:underline"
+		>
+			Show all
+		</a>
+	</header>
+
+	<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+		{
+			playlists.map((playlist) => (
+				<li>
+					<PLVertical playlist={playlist} />
+				</li>
+			))
+		}
+	</ul>
+</section>

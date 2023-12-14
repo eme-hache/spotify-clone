@@ -1,0 +1,45 @@
+---
+import PlayButton from '@/components/shared/PlayButton'
+
+import PlayMiniIcon from '@/icons/astro/PlayMini.astro'
+
+import type { Playlist } from '@/utils/types'
+
+type Props = {
+	playlist: Playlist
+}
+
+const { playlist } = Astro.props
+const { id, cover, title, artists, color } = playlist
+
+const artistString = artists.join(', ')
+
+/* Intl.ListFormat */
+---
+
+<a
+	href={`/playlist/${id}`}
+	class="playlist-item transition-all duration-200 bg-playlist-horizontal-min group hover:bg-playlist-horizontal-min-highlight flex relative overflow-hidden items-center rounded-md hover:bg-highlight"
+>
+	<picture class="h-12 w-12 flex-none">
+		<img
+			src={cover}
+			alt={`Cover of ${title} by ${artistString}`}
+			class="object-cover w-full h-full rounded-tl rounded-bl"
+			transition:name=`playlist-${id}-image`
+		/>
+	</picture>
+
+	<div class="flex-1 px-4 flex justify-between items-center">
+		<p
+			class="text-sm font-bold line-clamp-2"
+			transition:name=`playlist-${id}-title`
+		>
+			{title}
+		</p>
+
+		<div class="ml-2 opacity-0 group-hover:opacity-100">
+			<PlayButton id={id} color="green" size="mini" />
+		</div>
+	</div>
+</a>
